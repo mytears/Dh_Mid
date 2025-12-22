@@ -1,0 +1,8 @@
+﻿{
+    "setting": {
+        "content_url": "https://www.kumoh.svr.kr/api/kiosk_contents?kiosk_code=KIOSK00001",
+        "root_url":"https://www.kumoh.svr.kr/",
+		"notice_mode":"web",
+		"web_server_port":""
+    }
+}

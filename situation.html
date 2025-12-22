@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INFORMATION</title>
+    <link rel="stylesheet" href="include/css/lib/swiper.css">
+    <link rel="stylesheet" href="include/css/common.css">
+    <link rel="stylesheet" href="include/css/default.css">
+    <link rel="stylesheet" href="include/css/style.css">
+    <link rel="stylesheet" href="include/css/situation.css">
+
+    <script src="include/js/lib/gsap.min.js"></script>
+    <script src="include/js/lib/swiper.js"></script>
+    <script src="include/js/lib/jquery-3.7.1.min.js"></script>
+    <script src="include/js/comm.js"></script>
+    <script src="include/js/situation.js"></script>
+
+</head>
+
+<body>
+    <div class="sub_page">
+        <section class="">
+            <div class="container">
+                <div class="wrap">
+                    <nav class="nav_snb">
+                        <ul>
+                            <li code="0"><button>학급/학생수/교직원 현황</button></li>
+                            <li code="1"><button>시설물 현황</button></li>
+                        </ul>
+                    </nav>
+                    <div class="content">
+                        <div class="img_zone">
+                            <img id="id_img_0" src="">
+                            <img id="id_img_1" src="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>
+<script language="javascript">
+    var PAGEACTIVEYN = true;
+    window.addEventListener('DOMContentLoaded', function() {
+        if (parent.MAINPARENTCUSTOMCODE) {
+            PAGEACTIVEYN = false;
+        } else {
+            PAGEACTIVEYN = true;
+            setTimeout(setInit, 100);
+        }
+    });
+</script>

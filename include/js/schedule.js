@@ -1,0 +1,117 @@
+let m_this_name = "schedule";
+let m_contents_url = "";
+let m_notice_mode = "";
+let m_root_url = "";
+let m_schedule_list = [];
+
+let m_contents_json = null;
+
+
+function setInit() {
+    console.log(m_this_name + " Init");
+    if (this.PAGEACTIVEYN == true) {
+        setLoadSetting("include/setting.json");
+    }
+
+    $('.nav_snb li').on("touchstart mousedown", function (e) {
+        e.preventDefault();
+        onClickMainMenu(this);
+    });
+}
+
+function setLoadSetting(_url) {
+    $.ajax({
+        url: _url,
+        dataType: 'json',
+        success: function (data) {
+            m_contents_url = data.setting.content_url;
+            //키오스크 컨텐츠의 주소
+            m_root_url = data.setting.root_url;
+            //이미지 로드를 위한 기본 root주소
+            m_notice_mode = data.setting.notice_mode;
+            //모드가 web이면 파일 주소를 보정함
+            m_web_server_port = data.setting.web_server_port;
+            //중소기업 중앙회에서는 사용하지 않음
+            setContents();
+        },
+        error: function (xhr, status, error) {
+            console.error('컨텐츠 에러 발생:', status, error);
+        },
+    });
+}
+//초기화
+function setInitSetting() {
+    $("#id_img_0").attr("src",convFilePath(m_schedule_list.file_path));
+    $(".img_zone img").hide();
+    
+    //setPage("0");
+    onClickMainMenu($(".nav_snb li[code='0']"));
+}
+
+//kiosk_contents를 읽기
+function setContents() {
+    var t_url = m_contents_url;
+    $.ajax({
+        url: t_url,
+        dataType: 'json',
+        success: function (data) {
+            m_header = data.header;
+            m_schedule_list = data.calendar_list;
+            setInitSetting();
+        },
+        error: function (xhr, status, error) {
+            console.error('컨텐츠 에러 발생:', status, error);
+        },
+    });
+
+}
+
+function setDataInit(_contents, _notice_mode){
+    m_notice_mode = _notice_mode;
+    setInit();
+    m_contents_json = _contents;
+    m_header = m_contents_json.header;
+    m_schedule_list = m_contents_json.calendar_list;
+    setInitSetting();
+}
+
+function onClickMainMenu(_obj) {
+    //console.log(_obj);
+    let t_code = $(_obj).attr('code');
+    $('.nav_snb li').removeClass('active');
+    $(`.nav_snb li[code="${t_code}"]`).addClass('active');
+    setPage(t_code);
+}
+
+function setPage(_code) {
+    $(".img_zone img").hide();
+    $("#id_img_"+_code).show();
+}
+
+function setMainReset() {
+    onClickMainMenu($(".nav_snb li[code='0']"));
+}
+
+
+function onClickBtnBack() {
+    window.parent.setMainReset();
+}
+
+
+function setMainInterval() {
+    var time_gap = 0;
+    var time_curr = new Date().getTime();
+
+    time_gap = time_curr - m_time_last;
+    time_gap = Math.floor(time_gap / 1000);
+}
+
+function setDateTime() {
+    let today = new Date();
+    let year = today.getFullYear(); // 년도
+    let month = today.getMonth() + 1; // 월
+    let date = today.getDate(); // 날짜
+    let day = today.getDay(); // 요일
+    let rour = today.getHours();
+    let min = today.getMinutes();
+}
