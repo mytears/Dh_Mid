@@ -20,7 +20,7 @@ let m_dust_time_chk = 0;
 
 function setInit() {
 
-    $('.nav_main li, .nav_gnb li').on("touchstart mousedown", function (e) {
+    $('.nav_main li, .nav_sub li').on("touchstart mousedown", function (e) {
         e.preventDefault();
         onClickMainMenu(this);
     });
@@ -138,7 +138,7 @@ function setInitSetting() {
     
     if(m_notice_list.length>0){
         setTimeout(setPage, 750, "0");
-        setTimeout(setNoticeDrawInfo, 800, "0");
+        //setTimeout(setNoticeDrawInfo, 800, "0");
     }else{
         $('.nav_main li, .nav_gnb li').removeClass('active');
         $(`.nav_main li[code="${1}"], .nav_gnb li[code="${1}"]`).addClass('active');
@@ -364,8 +364,8 @@ function setNoticeDrawInfoEnd() {
 
 function onClickMainMenu(_obj) {
     let t_code = $(_obj).attr('code');
-    $('.nav_main li, .nav_gnb li').removeClass('active');
-    $(`.nav_main li[code="${t_code}"], .nav_gnb li[code="${t_code}"]`).addClass('active');
+    $('.nav_sub li').removeClass('active');
+    $(`.nav_sub li[code="${t_code}"]`).addClass('active');
     setPage(t_code);
 }
 
@@ -411,51 +411,39 @@ function setPage(_code) {
             break;
         case '1':
             setVideosStop();
-            $("#id_header").html("역사관");
-            m_curr_page = $('#id_main_frame_history');
-            m_curr_document = m_curr_page.find('iframe')[0].contentWindow;
-            m_curr_page.show();
-            m_curr_document.setMainReset();
-            break;
-        case '2':
-            setVideosStop();
-            $("#id_header").html("학교안내");
-            m_curr_page = $('#id_main_frame_info');
-            m_curr_document = m_curr_page.find('iframe')[0].contentWindow;
-            m_curr_page.show();
-            m_curr_document.setMainReset();
-            break;
-        case '3':
-            setVideosStop();
             $("#id_header").html("학교소개");
             m_curr_page = $('#id_main_frame_intro');
             m_curr_document = m_curr_page.find('iframe')[0].contentWindow;
             m_curr_page.show();
             m_curr_document.setMainReset();
+            $(".landing").hide();
             break;
-        case '4':
+        case '2':
             setVideosStop();
-            $("#id_header").html("학교현황");
-            m_curr_page = $('#id_main_frame_situation');
+            $("#id_header").html("학교시설");
+            m_curr_page = $('#id_main_frame_info');
             m_curr_document = m_curr_page.find('iframe')[0].contentWindow;
             m_curr_page.show();
             m_curr_document.setMainReset();
+            $(".landing").hide();
             break;
-        case '5':
+        case '3':
             setVideosStop();
             $("#id_header").html("학사일정");
             m_curr_page = $('#id_main_frame_schedule');
             m_curr_document = m_curr_page.find('iframe')[0].contentWindow;
             m_curr_page.show();
             m_curr_document.setMainReset();
+            $(".landing").hide();
             break;
-        case '6':
+        case '4':
             setVideosStop();
-            $("#id_header").html("교육활동");
-            m_curr_page = $('#id_main_frame_activity');
+            $("#id_header").html("갤러리");
+            m_curr_page = $('#id_main_frame_gallery');
             m_curr_document = m_curr_page.find('iframe')[0].contentWindow;
             m_curr_page.show();
             m_curr_document.setMainReset();
+            $(".landing").hide();
             break;
     }
 }
@@ -530,9 +518,12 @@ function setDateTime() {
     let min = today.getMinutes();
     let t_day_list = ["일", "월", "화", "수", "목", "금", "토"];
 
+    rour = rour.toString().padStart(2, '0');
+    min = min.toString().padStart(2, '0');
     month = month.toString().padStart(2, '0');
     date = date.toString().padStart(2, '0');
     $(".date").html(`${year}.${month}.${date} (${t_day_list[day]})`);
+    $(".time").html(`${rour}:${min}`);
 }
 
 //비디오 재생 정보

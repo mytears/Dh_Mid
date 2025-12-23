@@ -27,7 +27,7 @@
     <div class="cover">
         <div class="loading-spinner"></div>
     </div>
-    <main id="id_main_notice" class="list_main">
+    <main id="id_main_notice" class="list_main" style="display:none;">
         <div id="id_page_notice_list" class="notice_main">
             <div id="id_notice_box_01" class="notice_box" style="display:none;">
                 <img src="">
@@ -43,82 +43,110 @@
             </div>
         </div>
     </main>
-    <main id="id_main_cont" class="main" style="display: none">
-        <div class="align_top">
-            <div class="clock"></div>
-            <div class="date">2024.08.13 (화)</div>
-        </div>
-        <div class="title_main">
-            <img src="images/img_title.png" alt="">
-        </div>
-        <nav class="nav_main">
-            <ul>
-                <li code="1">
-                    <a>
-                        <img src="" alt="">
-                    </a>
-                </li>
-                <li code="2">
-                    <a>
-                        <img src="" alt="">
-                    </a>
-                </li>
-                <li code="3">
-                    <a>
-                        <img src="" alt="">
-                    </a>
-                </li>
-                <li code="4">
-                    <a>
-                        <img src="" alt="">
-                    </a>
-                </li>
-                <li code="5">
-                    <a>
-                        <img src="" alt="">
-                    </a>
-                </li>
-                <li code="6">
-                    <a>
-                        <img src="" alt="">
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </main>
+
+
+
+    <div class="main landing">
+        <header>
+            <div class="time"></div>
+            <div class="date"></div>
+        </header>
+        <main>
+            <div class="wrap">
+                <nav class="nav_main">
+                    <ul>
+                        <li code="1">
+                            <a>
+                                <span><img src="images/ico_a1.png" alt=""></span>
+                                학교소개
+                            </a>
+                        </li>
+                        <li code="2">
+                            <a>
+                                <span><img src="images/ico_a2.png" alt=""></span>
+                                학교시설
+                            </a>
+                        </li>
+                        <li code="3">
+                            <a>
+                                <span><img src="images/ico_a3.png" alt=""></span>
+                                학사일정
+                            </a>
+                        </li>
+                        <li code="4">
+                            <a>
+                                <span><img src="images/ico_a4.png" alt=""></span>
+                                갤러리
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </main>
+    </div>
+
 
     <main id="id_sub_cont" class="sub">
-        <div class="img_sub_01 bg_deco"><img src="images/img_sub_01.png" alt=""></div>
-        <div class="img_sub_02 bg_deco"><img src="images/img_sub_02.png" alt=""></div>
-        <div class="img_sub_03 bg_deco"><img src="images/img_sub_03.png" alt=""></div>
-        <div class="img_sub_04 bg_deco"><img src="images/img_sub_04.png" alt=""></div>
-
-        <div class="sub_container area_main">
-            <div class="container">
-                <header id="id_header">학교안내</header>
-                <div class="sub_page_main">
-                    <div id="id_main_frame_history" class="frame_info">
-                        <iframe allowTransparency="true" name="frame_history" src="history.html"></iframe>
-                    </div>
-                    <div id="id_main_frame_info" class="frame_info">
-                        <iframe allowTransparency="true" name="frame_info" src="info.html"></iframe>
-                    </div>
-                    <div id="id_main_frame_intro" class="frame_info">
-                        <iframe allowTransparency="true" name="frame_intro" src="intro.html"></iframe>
-                    </div>
-                    <div id="id_main_frame_situation" class="frame_info">
-                        <iframe allowTransparency="true" name="frame_situation" src="situation.html"></iframe>
-                    </div>
-                    <div id="id_main_frame_schedule" class="frame_info">
-                        <iframe allowTransparency="true" name="frame_schedule" src="schedule.html"></iframe>
-                    </div>
-                    <div id="id_main_frame_activity" class="frame_info">
-                        <iframe allowtransparency="true" name="frame_activity" src="activity.html"></iframe>
+        <div class="wrap">
+            <div class="container area_main">
+                <div class="">
+                    <div class="sub_page_main">
+                        <div id="id_main_frame_intro" class="frame_info">
+                            <iframe allowTransparency="true" name="frame_intro" src="intro.html"></iframe>
+                        </div>
+                        <div id="id_main_frame_info" class="frame_info">
+                            <iframe allowTransparency="true" name="frame_info" src="info.html"></iframe>
+                        </div>
+                        <div id="id_main_frame_schedule" class="frame_info">
+                            <iframe allowTransparency="true" name="frame_schedule" src="schedule.html"></iframe>
+                        </div>
+                        <div id="id_main_frame_gallery" class="frame_info">
+                            <iframe allowtransparency="true" name="frame_gallery" src="gallery.html"></iframe>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="area_side snb">
+                <div class="logo"><img src="images/logo.png" alt=""></div>
+                <div class="time">12:53</div>
+                <div class="date">2024.08.13 (화)</div>
+                <div class="group_btn">
+                    <a href="index.html" class="btn_home"><img src="images/ico_home.png" alt="">홈화면</a>
+                    <a href="index.html" class="btn_back"><img src="images/ico_back.png" alt="">뒤로가기</a>
+                </div>
+                <nav class="nav_sub">
+                    <ul>
+                        <li code="1" class="active">
+                            <a>
+                                <img src="images/ico_a1.png" alt="">
+                                학교소개
+                            </a>
+                        </li>
+                        <li code="2">
+                            <a>
+                                <img src="images/ico_a2.png" alt="">
+                                학교시설
+                            </a>
+                        </li>
+                        <li code="3">
+                            <a>
+                                <img src="images/ico_a3.png" alt="">
+                                학사일정
+                            </a>
+                        </li>
+                        <li code="4">
+                            <a>
+                                <img src="images/ico_a4.png" alt="">
+                                갤러리
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <button class="btn_cast">
+                    <img src="images/ico_cast.png" alt="">LEDcast
+                </button>
+            </div>
         </div>
-
         <div id="id_popup_trophy" class="popup_bg" style="display:none;">
             <div class="popup popup_trophy">
 
@@ -191,96 +219,14 @@
                         <div class="swiper-button-next"></div>
                     </div>
                 </div>
-                <!--
-                <div class="img_zone">
-                    <img id="id_popup_img_img" src="" alt="">
-                </div>
-
-                <ul class="dot">
-                    <li class="active"><button></button></li>
-                    <li><button></button></li>
-                    <li><button></button></li>
-                </ul>
--->
 
                 <p id="id_popup_img_txt_2"></p>
 
                 <button class="btn_close"><img src="images/btn_close.png" alt=""></button>
 
-                <!--
-
-                <div class="btn_slide">
-                    <button class="btn_prev"><img src="images/btn_prev.png" alt=""></button>
-                    <button class="btn_next"><img src="images/btn_next.png" alt=""></button>
-                </div>
--->
-
             </div>
         </div>
-        <div class="btn_zone">
-            <div class="group_btn">
-                <a class="btn_home"><img src="images/btn_home.png" alt=""></a>
-                <button class="btn_back"><img src="images/btn_back.png" alt=""></button>
-            </div>
-        </div>
-        <section class="area_side">
-            <div class="align_top"><img src="images/img_daedeok.png" alt=""></div>
-            <div class="align_center">
-                <!--                <div class="time"></div>-->
-                <div class="clock"></div>
-                <div class="date">2024.08.13 (화)</div>
-                <div class="dust">
-                    <div class="dust_img">
-                        <img id="id_dust_image" src="images/img_dust_04.png" alt="">
-                    </div>
-                    <div class="dust_info">
-                        <strong>미세먼지</strong>
-                        <b id="id_dust_title">좋음</b>
-                        <i id="id_dust_value">14㎍/㎥</i>
-                    </div>
-                </div>
-            </div>
-            <nav class="nav_gnb">
-                <ul>
-                    <li code="1">
-                        <a>
-                            <span><img src="images/ico_gnb_01.png" alt=""></span>
-                            <i>역사관</i>
-                        </a>
-                    </li>
-                    <li code="2" class="active">
-                        <a>
-                            <span><img src="images/ico_gnb_02.png" alt=""></span>
-                            <i>학교안내</i>
-                        </a>
-                    </li>
-                    <li code="3">
-                        <a>
-                            <span><img src="images/ico_gnb_03.png" alt=""></span>
-                            <i>학교소개</i>
-                        </a>
-                    </li>
-                    <li code="4">
-                        <a>
-                            <span><img src="images/ico_gnb_04.png" alt=""></span>
-                            <i>학교현황</i>
-                        </a>
-                    </li>
-                    <li code="5">
-                        <a>
-                            <span><img src="images/ico_gnb_05.png" alt=""></span>
-                            <i>학사일정</i>
-                        </a>
-                    </li>
-                    <li code="6">
-                        <a>
-                            <span><img src="images/ico_gnb_06.png" alt=""></span>
-                            <i>교육활동</i>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </section>
+
     </main>
     <!--
     <div class="main_content">
