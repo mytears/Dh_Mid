@@ -25,18 +25,6 @@
       ]
    },
    "notice_list":[
-      {
-         "id":"354",
-         "file_type":"MOV",
-         "file_duration":"10",
-         "file_path":"commonfiles/contents/video.mp4"
-      },
-      {
-         "id":"354",
-         "file_type":"IMG",
-         "file_duration":"10",
-         "file_path":"commonfiles/contents/image.jpg"
-      }
    ],
    "introduce_list":{
       "greetings_file_path":"commonfiles/introduce/greeting.png",

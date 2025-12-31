@@ -74,8 +74,8 @@ function setLoadSetting(_url) {
 }
 //초기화
 function setInitSetting() {
-
-    m_vod_list = m_activity_list.video_list;
+    return;
+    //m_vod_list = m_activity_list.video_list;
     m_img_list = m_activity_list.photo_list;
     if(m_vod_list.length==0){
         $(".no_bg").show();

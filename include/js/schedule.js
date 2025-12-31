@@ -41,11 +41,11 @@ function setLoadSetting(_url) {
 }
 //초기화
 function setInitSetting() {
-    $("#id_img_0").attr("src",convFilePath(m_schedule_list.file_path));
-    $(".img_zone img").hide();
+    //$("#id_img_0").attr("src",convFilePath(m_schedule_list.file_path));
+    //$(".img_zone img").hide();
     
     //setPage("0");
-    onClickMainMenu($(".nav_snb li[code='0']"));
+    //onClickMainMenu($(".nav_snb li[code='0']"));
 }
 
 //kiosk_contents를 읽기
@@ -56,7 +56,7 @@ function setContents() {
         dataType: 'json',
         success: function (data) {
             m_header = data.header;
-            m_schedule_list = data.calendar_list;
+            m_schedule_list = data.introduce_list;
             setInitSetting();
         },
         error: function (xhr, status, error) {
