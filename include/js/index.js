@@ -21,6 +21,8 @@ let m_dust_time_chk = 0;
 let channel = new BroadcastChannel('dh_channel');
 let m_pop_cnt = 0;
 
+let m_back_list = [];
+
 function setInit() {
 
     $('.nav_main li, .nav_sub li').on("touchstart mousedown", function (e) {
@@ -294,6 +296,7 @@ function onClickBtnHome(_obj) {
 
 function setMainReset() {
     
+    m_back_list = [];
     $("#id_popup_img").hide();
 
     if (m_mode == "LED") {
@@ -438,7 +441,7 @@ function setClock() {
 }
 
 
-function setPage(_code) {
+function setPage(_code, _isBack = false) {
     console.log('index setPage', _code);
     setHideCover();
 
@@ -461,6 +464,10 @@ function setPage(_code) {
 
     m_curr_page_num = parseInt(_code);
 
+    if (!_isBack) {
+        m_back_list.push(m_curr_page_num);
+    }
+    
     switch (_code) {
         case '0':
             m_curr_page = null;
