@@ -1,3 +1,4 @@
+let m_mode = "MAIN";
 let m_curr_page_num = -1;
 let m_curr_page = null;
 let m_curr_document = null;
@@ -17,6 +18,8 @@ let m_notice_timeout = null;
 let m_dust_title_list = ['좋음', '보통', '나쁨', '매우나쁨'];
 let m_dust_img_list = ['images/img_dust_04.png', 'images/img_dust_03.png', 'images/img_dust_02.png', 'images/img_dust_01.png'];
 let m_dust_time_chk = 0;
+let channel = new BroadcastChannel('dh_channel');
+let m_pop_cnt = 0;
 
 function setInit() {
 
@@ -46,6 +49,11 @@ function setInit() {
     $('.btn_close').on("touchstart mousedown", function (e) {
         e.preventDefault();
         onClickPopupClose(this);
+    });
+
+    $('.btn_cast').on("touchstart mousedown", function (e) {
+        e.preventDefault();
+        onClickLedCast(this);
     });
 
     var str_iframe = $('iframe').contents();
@@ -128,6 +136,7 @@ function setInitSetting() {
     setClock();
 
     setDustJson();
+    setWeatherJson();
     //setPage("0");
 
     setTimeout(function () {
@@ -152,15 +161,23 @@ function setInitSetting() {
             }
         });
     }, 500);
+}
 
+function setLEDModeOn() {
+    m_mode = "LED";
+    $(".area_side").hide();
+    $("#id_sub_cont .wrap .container").addClass("led");
+    $(".modal").addClass("led");
+    $(".landing").hide();
     if (m_notice_list.length > 0) {
         setTimeout(setPage, 750, "0");
         //setTimeout(setNoticeDrawInfo, 800, "0");
-    } else {
-        $('.nav_main li, .nav_gnb li').removeClass('active');
-        $(`.nav_main li[code="${1}"], .nav_gnb li[code="${1}"]`).addClass('active');
-        //        setTimeout(setPage, 750, "1");        
     }
+    channel.onmessage = (event) => {
+        console.log("메시지를 받았습니다:", event.data);
+        // event.data.message 형태로 접근 가능
+        setLedCastFrame(event.data.frame, event.data.num, event.data.page, event.data.cnt, event.data.pop);
+    };
 }
 
 //kiosk_contents를 읽기
@@ -189,18 +206,48 @@ function setHideCover() {
 }
 
 function setDustJson() {
-
+    //console.log((new Date).getTime());
+    $.ajax({
+        url: "https://www.kma2024.svr.kr/esdaedeok/dust.asp?user=esdaedeok&code=9e5bdf26ec5a4f60b660081b664c862e&mode=state&chkdate=" + (new Date).getTime(),
+        dataType: "jsonp",
+        success: function (data) {
+            setDust(data);
+        },
+        error: function (xhr, status, error) {
+            console.error('미세먼지 에러 발생:', status, error);
+        },
+    });
 }
 
 function setDust(_json) {
     console.log("setDust");
-    //console.log(_json);
+    console.log(_json);
     let t_value = parseInt(_json.pm10_info_num);
     let t_type = getGradeNum10(t_value);
-    $("#id_dust_title").html(m_dust_title_list[t_type]);
+    $(".dust_title").html(m_dust_title_list[t_type]);
     $("#id_dust_image").attr("src", m_dust_img_list[t_type]);
     $("#id_dust_value").html(t_value + "㎍/㎥");
+}
 
+function setWeatherJson() {
+
+    $.ajax({
+        url: "https://www.kma2024.svr.kr/weather/v1/weather.asp?user=lscheongju01&code=b0bb578e09ef4415ab9f0948073af925&mode=state&chkdate=" + (new Date).getTime(),
+        dataType: 'jsonp',
+        success: function (data) {
+            setWeather(data);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {}
+    });
+}
+
+function setWeather(_json) {
+    console.log("setWeather");
+    console.log(_json);
+
+    $('.weather_icon').attr('src', '/images/weather/' + _json.date_0_data_wficon + '.png');
+    var temp = _json.date_0_data_temp.replace("℃", "˚")
+    $('.weather_temp').html(temp + "˚");
 }
 
 
@@ -222,8 +269,8 @@ function getGradeNum10(_num) {
 }
 
 function onClickBtnBack(_obj) {
-    if ($("#id_popup_trophy").css("display") != "none") {
-        $("#id_popup_trophy").hide();
+    if ($("#id_popup_img").css("display") != "none") {
+        $("#id_popup_img").hide();
         return;
     }
     if (m_curr_document != null) {
@@ -235,8 +282,10 @@ function onClickPopupClose(_obj) {
     $("#id_popup_trophy").hide();
     $("#id_popup_vod").hide();
     $("#id_popup_img").hide();
-    $("#id_popup_video_obj")[0].pause();
-    $("#id_popup_video_obj")[0].src = '';
+    //$("#id_popup_video_obj")[0].pause();
+    //$("#id_popup_video_obj")[0].src = '';
+    m_img_swiper.slideTo(0,0);
+    m_curr_document.setPopupClose();
 }
 
 function onClickBtnHome(_obj) {
@@ -244,11 +293,17 @@ function onClickBtnHome(_obj) {
 }
 
 function setMainReset() {
+    
+    $("#id_popup_img").hide();
 
-    if (m_notice_list.length > 0) {
-        if ($("#id_main_notice").css("display") == "none") {
-            setPage("0");
-            setNoticeDrawInfo();
+    if (m_mode == "LED") {
+        if (m_notice_list.length > 0) {
+            if ($("#id_main_notice").css("display") == "none") {
+                setPage("0");
+                setNoticeDrawInfo();
+            }
+        } else {
+            setPage("1");
         }
     } else {
         //$('.nav_main li, .nav_gnb li').removeClass('active');
@@ -272,9 +327,9 @@ function setMainInterval() {
     time_gap = Math.floor(time_gap / 1000);
     if (time_gap > 180) {
         m_time_last = time_curr;
-        if (getVideoStatus($("#id_popup_video_obj")) == "playing") {
-            return;
-        }
+        //if (getVideoStatus($("#id_popup_video_obj")) == "playing") {
+        //    return;
+        //}
         setMainReset();
     }
 
@@ -290,6 +345,7 @@ function setMainInterval() {
         m_dust_time_chk = 0;
         //setDust("");
         setDustJson();
+        setWeatherJson();
     }
 }
 
@@ -326,7 +382,7 @@ function setNoticeDrawInfo() {
         $('#' + str_show + ' > video').show();
         $('#' + str_show + ' > img').hide();
         $('#' + str_show).children('video')[0].play();
-        setCallWebToApp("UNMUTE", "UNMUTE");        
+        setCallWebToApp("UNMUTE", "UNMUTE");
     } else if (obj.type == "IMG") {
         $('#' + str_show + ' > img').attr('src', convFilePath(obj.file_path));
         $('#' + str_show + ' > video').hide();
@@ -378,14 +434,7 @@ function onClickMainMenu(_obj) {
 }
 
 function setClock() {
-    $('.align_top .clock').FlipClock({
-        clockFace: 'TwentyFourHourClock',
-        showSeconds: false
-    });
-    $('.align_center .clock').FlipClock({
-        clockFace: 'TwentyFourHourClock',
-        showSeconds: false
-    });
+
 }
 
 
@@ -393,7 +442,13 @@ function setPage(_code) {
     console.log('index setPage', _code);
     setHideCover();
 
+    m_pop_cnt = 0;
+    m_pop_img_cnt = 0;
+    $("#id_popup_trophy").hide();
+    $("#id_popup_vod").hide();
     $("#id_popup_img").hide();
+    //$("#id_popup_video_obj")[0].pause();
+    //$("#id_popup_video_obj")[0].src = '';
     $("#id_notice_box_01 video")[0].pause();
     $("#id_notice_box_02 video")[0].pause();
     $("#id_notice_box_01 video")[0].src = '';
@@ -404,53 +459,46 @@ function setPage(_code) {
     $("#id_main_page").hide();
     $(".frame_info").hide();
 
+    m_curr_page_num = parseInt(_code);
+
     switch (_code) {
         case '0':
-            $("#id_header").html("");
             m_curr_page = null;
             m_curr_document = null;
             $('.nav_main li, .nav_gnb li').removeClass('active');
             $('#id_main_notice').show();
-            //$('#id_main_cont').show();
             break;
         case '1':
-            $(".landing").hide();
             setVideosStop();
-            $("#id_header").html("학교소개");
             m_curr_page = $('#id_main_frame_intro');
             m_curr_document = m_curr_page.find('iframe')[0].contentWindow;
             m_curr_page.show();
             m_curr_document.setMainReset();
+            $(".landing").hide();
             break;
         case '2':
-            $(".landing").hide();
-            return;
             setVideosStop();
-            $("#id_header").html("학교시설");
             m_curr_page = $('#id_main_frame_info');
             m_curr_document = m_curr_page.find('iframe')[0].contentWindow;
             m_curr_page.show();
             m_curr_document.setMainReset();
+            $(".landing").hide();
             break;
         case '3':
-            $(".landing").hide();
-            return;
             setVideosStop();
-            $("#id_header").html("학사일정");
             m_curr_page = $('#id_main_frame_schedule');
             m_curr_document = m_curr_page.find('iframe')[0].contentWindow;
             m_curr_page.show();
             m_curr_document.setMainReset();
+            $(".landing").hide();
             break;
         case '4':
-            $(".landing").hide();
-            return;
             setVideosStop();
-            $("#id_header").html("갤러리");
             m_curr_page = $('#id_main_frame_gallery');
             m_curr_document = m_curr_page.find('iframe')[0].contentWindow;
             m_curr_page.show();
             m_curr_document.setMainReset();
+            $(".landing").hide();
             break;
     }
 }
@@ -470,14 +518,22 @@ function setPopupVod(_obj) {
     $("#id_popup_vod").show();
 }
 
-function setPopupImg(_obj) {
+function setPopupImg(_obj, _id) {
+    //console.log("_id", _id);
+    console.log(_obj);
     m_img_list = _obj.file_list;
-
+    m_pop_cnt = _id;
     $("#id_popup_img_txt_1").html(_obj.title);
     $("#id_popup_img_txt_2").html(_obj.desc);
     $("#id_popup_img").show();
     setImgListUp();
 
+}
+
+function setPopSwiperPage(_cnt) {
+    _cnt -= 1;
+    m_img_swiper.slideTo(_cnt, 0);
+    //m_img_swiper.update();    
 }
 
 function setPopupTrophy(_obj) {
@@ -490,12 +546,6 @@ function setPopupTrophy(_obj) {
     $("#id_popup_trophy_txt_4").html(_obj.award);
     $("#id_popup_trophy").show();
 }
-
-function setLoadVideo(_url) {
-    $("#id_popup_video_obj").attr('src', convFilePath(_url));
-    $("#id_popup_video_obj")[0].play();
-}
-
 
 function setImgListUp() {
     $('#id_img_swiper_wrapper').html("");
@@ -550,4 +600,44 @@ function getVideoStatus(_vod) {
     } else {
         return "unknown"; // 다른 상태
     }
+}
+
+function setDebug() {
+    let t_list = $("#id_input").val().split(",");
+    setLedCastFrame(t_list[0], t_list[1], t_list[2], t_list[3], t_list[4]);
+}
+
+function setLedCastFrame(_frame, _num, _page, _cnt, _pop) {
+    console.log(_frame, _num, _page, _cnt, _pop);
+    //console.log("Frame : " + _frame, "Num : " + _num, "Page : " + _page, "Cnt : " + _cnt, "Pop : " + _pop);
+    m_time_last = new Date().getTime();
+    setPage(_frame.toString());
+
+    m_curr_document.setPage(_num);
+    m_curr_document.setSubPage(_page, _cnt);
+    setPopSwiperPage(_pop);
+}
+
+function onClickLedCast(_obj) {
+    if (m_mode == "led") {
+        return;
+    }
+    //m_curr_page_num
+    let t_list = m_curr_document.getPage().split(",");
+    //console.log(t_list);
+    let t_frame = parseInt(m_curr_page_num);
+    let t_num = parseInt(t_list[0]);
+    let t_page = parseInt(t_list[1]);
+    let t_cnt = parseInt(t_list[2]);//m_pop_cnt;
+    let t_pop = m_img_swiper.activeIndex+1;
+    console.log(t_frame, t_num, t_page, t_cnt, t_pop);
+    //setLedCastFrame(t_frame, t_num, t_page, t_cnt, t_pop);
+    const data = {
+        frame: t_frame,
+        num: t_num,
+        page: t_page,
+        cnt: t_cnt,
+        pop: t_pop
+    };
+    channel.postMessage(data);
 }

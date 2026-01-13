@@ -25,121 +25,456 @@
       ]
    },
    "notice_list":[
+      
    ],
    "introduce_list":{
-      "greetings_file_path":"commonfiles/introduce/greeting.png",
-      "symbol_file_path":"commonfiles/introduce/symbol.png",
-      "history_file_path":"commonfiles/introduce/history.png",
-      "objective_file_path":"commonfiles/introduce/target.png"
+      "greetings_file_path":"commonfiles/uploads/greeting.png",
+      "symbol_file_path":"commonfiles/uploads/symbol.png",
+      "history_file_path":"commonfiles/uploads/history.png",
+      "objective_file_path":"commonfiles/uploads/target.png"
    },
    "infomation_list":{
       "main_building":[
          {
-            "code":"1",
+            "code":"2",
             "floor":"1F",
-            "file_path":"commonfiles/information/main_1F.png",
-            "rooms":[
-               {
-                  "code":"1",
-                  "title":"행정실"
-               },
-               {
-                  "code":"2",
-                  "title":"과학실"
-               },
-               {
-                  "code":"3",
-                  "title":"한빛서재"
-               }
-            ]
+            "file_path":"commonfiles/uploads/본관1층.png"
          },
          {
-            "code":"2",
+            "code":"3",
             "floor":"2F",
-            "file_path":"commonfiles/information/main_2F.png",
-            "rooms":[
-               {
-                  "code":"1",
-                  "title":"행정실"
-               },
-               {
-                  "code":"2",
-                  "title":"과학실"
-               },
-               {
-                  "code":"3",
-                  "title":"한빛서재"
-               }
-            ]
+            "file_path":"commonfiles/uploads/본관2층.png"
+         },
+         {
+            "code":"4",
+            "floor":"3F",
+            "file_path":"commonfiles/uploads/본관3층.png"
          }
       ],
       "sub_building":[
          {
             "code":"1",
             "floor":"1F",
-            "file_path":"commonfiles/information/sub_1F.png",
-            "rooms":[
-               {
-                  "code":"1",
-                  "title":"행정실"
-               },
-               {
-                  "code":"2",
-                  "title":"과학실"
-               },
-               {
-                  "code":"3",
-                  "title":"한빛서재"
-               }
-            ]
+            "file_path":"commonfiles/uploads/특별관1층.png"
          },
          {
             "code":"2",
             "floor":"2F",
-            "file_path":"commonfiles/information/sub_2F.png",
-            "rooms":[
-               {
-                  "code":"1",
-                  "title":"행정실"
-               },
-               {
-                  "code":"2",
-                  "title":"과학실"
-               },
-               {
-                  "code":"3",
-                  "title":"한빛서재"
-               }
-            ]
+            "file_path":"commonfiles/uploads/특별관2층.png"
+         },
+         {
+            "code":"3",
+            "floor":"3F",
+            "file_path":"commonfiles/uploads/특별관3층.png"
+         },
+         {
+            "code":"4",
+            "floor":"4F",
+            "file_path":"commonfiles/uploads/특별관4층.png"
+         },
+         {
+            "code":"5",
+            "floor":"5F",
+            "file_path":"commonfiles/uploads/특별관5층.png"
+         },
+         {
+            "code":"6",
+            "floor":"6F",
+            "file_path":"commonfiles/uploads/특별관6층.png"
          }
       ]
    },
-   "schedule_list":[
+   "schedule_list":{
+       "academic_list":[
       {
-         "month":"1",
-         "file_path":"commonfiles/schedule/m01.png"
+        "id": 17,
+        "title": "학사일정1",
+        "start": "2026-01-19",
+        "end": "2026-01-20",
+        "allDay": true,
+        "description": "학사일정 설명입니다.",
+        "type": "academic",
+        "backgroundColor": "#696cff",
+        "borderColor": "#696cff",
+        "created_at": "2025-12-29",
+        "updated_at": "2025-12-29"
       },
       {
-         "month":"2",
-         "file_path":"commonfiles/schedule/m02.png"
+        "id": 17,
+        "title": "학사일정2",
+        "start": "2026-02-19",
+        "end": "2026-02-20",
+        "allDay": true,
+        "description": "학사일정 설명입니다.",
+        "type": "academic",
+        "backgroundColor": "#696cff",
+        "borderColor": "#696cff",
+        "created_at": "2025-12-29",
+        "updated_at": "2025-12-29"
+      },
+      {
+        "id": 17,
+        "title": "학사일정3",
+        "start": "2026-03-19",
+        "end": "2026-03-20",
+        "allDay": true,
+        "description": "학사일정 설명입니다.",
+        "type": "academic",
+        "backgroundColor": "#696cff",
+        "borderColor": "#696cff",
+        "created_at": "2025-12-29",
+        "updated_at": "2025-12-29"
+      },
+      {
+        "id": 17,
+        "title": "학사일정4",
+        "start": "2026-04-19",
+        "end": "2026-04-20",
+        "allDay": true,
+        "description": "학사일정 설명입니다.",
+        "type": "academic",
+        "backgroundColor": "#696cff",
+        "borderColor": "#696cff",
+        "created_at": "2025-12-29",
+        "updated_at": "2025-12-29"
+      },
+      {
+        "id": 17,
+        "title": "학사일정5",
+        "start": "2026-05-19",
+        "end": "2026-05-20",
+        "allDay": true,
+        "description": "학사일정 설명입니다.",
+        "type": "academic",
+        "backgroundColor": "#696cff",
+        "borderColor": "#696cff",
+        "created_at": "2025-12-29",
+        "updated_at": "2025-12-29"
+      },
+      {
+        "id": 17,
+        "title": "학사일정6",
+        "start": "2026-06-19",
+        "end": "2026-06-20",
+        "allDay": true,
+        "description": "학사일정 설명입니다.",
+        "type": "academic",
+        "backgroundColor": "#696cff",
+        "borderColor": "#696cff",
+        "created_at": "2025-12-29",
+        "updated_at": "2025-12-29"
+      },
+      {
+        "id": 17,
+        "title": "학사일정7",
+        "start": "2026-07-19",
+        "end": "2026-07-20",
+        "allDay": true,
+        "description": "학사일정 설명입니다.",
+        "type": "academic",
+        "backgroundColor": "#696cff",
+        "borderColor": "#696cff",
+        "created_at": "2025-12-29",
+        "updated_at": "2025-12-29"
+      },
+      {
+        "id": 17,
+        "title": "학사일정8",
+        "start": "2026-08-19",
+        "end": "2026-08-20",
+        "allDay": true,
+        "description": "학사일정 설명입니다.",
+        "type": "academic",
+        "backgroundColor": "#696cff",
+        "borderColor": "#696cff",
+        "created_at": "2025-12-29",
+        "updated_at": "2025-12-29"
+      },
+      {
+        "id": 17,
+        "title": "학사일정9",
+        "start": "2026-09-19",
+        "end": "2026-09-20",
+        "allDay": true,
+        "description": "학사일정 설명입니다.",
+        "type": "academic",
+        "backgroundColor": "#696cff",
+        "borderColor": "#696cff",
+        "created_at": "2025-12-29",
+        "updated_at": "2025-12-29"
+      },
+      {
+        "id": 17,
+        "title": "학사일정10",
+        "start": "2026-10-19",
+        "end": "2026-10-20",
+        "allDay": true,
+        "description": "학사일정 설명입니다.",
+        "type": "academic",
+        "backgroundColor": "#696cff",
+        "borderColor": "#696cff",
+        "created_at": "2025-12-29",
+        "updated_at": "2025-12-29"
+      },
+      {
+        "id": 17,
+        "title": "학사일정11",
+        "start": "2026-11-19",
+        "end": "2026-11-20",
+        "allDay": true,
+        "description": "학사일정 설명입니다.",
+        "type": "academic",
+        "backgroundColor": "#696cff",
+        "borderColor": "#696cff",
+        "created_at": "2025-12-29",
+        "updated_at": "2025-12-29"
+      },
+      {
+        "id": 17,
+        "title": "학사일정12",
+        "start": "2026-12-29",
+        "end": "2026-12-30",
+        "allDay": true,
+        "description": "학사일정 설명입니다.",
+        "type": "academic",
+        "backgroundColor": "#696cff",
+        "borderColor": "#696cff",
+        "created_at": "2025-12-29",
+        "updated_at": "2025-12-29"
       }
-   ],
+           ]
+           },
    "gallery_list":{
       "history_list":[
          
-      ],
-      "photo_list":[
          {
-            "title":"나주중흥골드스파 1일 수영 체험",
-            "date":"2024-08-26",
+            "title":"연찬회(무릉계곡등반)",
+            "date":"2025-12-31",
             "file_list":[
                {
-                  "id":"1272",
-                  "file_path":"commonfiles/activity/photos/CONTENT00339/1724660607_c78476252a515f0156c7.jpg"
+                  "id":"1",
+                  "file_path":"commonfiles/history/photos/photo_001.jpg"
+               }
+            ]
+         },
+         {
+            "title":"2021년 수능고득점기원제",
+            "date":"2025-12-31",
+            "file_list":[
+               {
+                  "id":"1",
+                  "file_path":"commonfiles/history/photos/photo_002.jpg"
+               }
+            ]
+         },
+         {
+            "title":"2020년 수능고득점기원제1",
+            "date":"2025-12-31",
+            "file_list":[
+               {
+                  "id":"1",
+                  "file_path":"commonfiles/history/photos/photo_003.jpg"
+               }
+            ]
+         },
+         {
+            "title":"2010년대 수능고득점 기원제",
+            "date":"2025-12-31",
+            "file_list":[
+               {
+                  "id":"1",
+                  "file_path":"commonfiles/history/photos/photo_004.jpg"
+               }
+            ]
+         },
+         {
+            "title":"90년대 야영",
+            "date":"2025-12-31",
+            "file_list":[
+               {
+                  "id":"1",
+                  "file_path":"commonfiles/history/photos/photo_005.jpg"
+               }
+            ]
+         },
+         {
+            "title":"90년대 밴드부연주",
+            "date":"2025-12-31",
+            "file_list":[
+               {
+                  "id":"1",
+                  "file_path":"commonfiles/history/photos/photo_006.jpg"
+               }
+            ]
+         },
+         {
+            "title":"90년대 도민체전 마스게임참가",
+            "date":"2025-12-31",
+            "file_list":[
+               {
+                  "id":"1",
+                  "file_path":"commonfiles/history/photos/photo_007.jpg"
+               }
+            ]
+         },
+         {
+            "title":"80년대 1",
+            "date":"2025-12-31",
+            "file_list":[
+               {
+                  "id":"1",
+                  "file_path":"commonfiles/history/photos/photo_008.jpg"
                },
                {
-                  "id":"1273",
-                  "file_path":"commonfiles/activity/photos/CONTENT00339/1724660607_c00fbe3ad13ac5085e4f.jpg"
+                  "id":"2",
+                  "file_path":"commonfiles/history/photos/photo_009.jpg"
+               },
+               {
+                  "id":"3",
+                  "file_path":"commonfiles/history/photos/photo_010.jpg"
+               },
+               {
+                  "id":"4",
+                  "file_path":"commonfiles/history/photos/photo_011.jpg"
+               }
+            ]
+         },
+         {
+            "title":"80년대 2",
+            "date":"2025-12-31",
+            "file_list":[
+               {
+                  "id":"1",
+                  "file_path":"commonfiles/history/photos/photo_012.jpg"
+               },
+               {
+                  "id":"2",
+                  "file_path":"commonfiles/history/photos/photo_013.jpg"
+               },
+               {
+                  "id":"3",
+                  "file_path":"commonfiles/history/photos/photo_014.jpg"
+               },
+               {
+                  "id":"4",
+                  "file_path":"commonfiles/history/photos/photo_015.jpg"
+               }
+            ]
+         }
+      ],
+      "photo_list":[
+
+         {
+            "title":"연찬회(무릉계곡등반)",
+            "date":"2025-12-31",
+            "file_list":[
+               {
+                  "id":"1",
+                  "file_path":"commonfiles/history/photos/photo_001.jpg"
+               }
+            ]
+         },
+         {
+            "title":"2021년 수능고득점기원제",
+            "date":"2025-12-31",
+            "file_list":[
+               {
+                  "id":"1",
+                  "file_path":"commonfiles/history/photos/photo_002.jpg"
+               }
+            ]
+         },
+         {
+            "title":"2020년 수능고득점기원제1",
+            "date":"2025-12-31",
+            "file_list":[
+               {
+                  "id":"1",
+                  "file_path":"commonfiles/history/photos/photo_003.jpg"
+               }
+            ]
+         },
+         {
+            "title":"2010년대 수능고득점 기원제",
+            "date":"2025-12-31",
+            "file_list":[
+               {
+                  "id":"1",
+                  "file_path":"commonfiles/history/photos/photo_004.jpg"
+               }
+            ]
+         },
+         {
+            "title":"90년대 야영",
+            "date":"2025-12-31",
+            "file_list":[
+               {
+                  "id":"1",
+                  "file_path":"commonfiles/history/photos/photo_005.jpg"
+               }
+            ]
+         },
+         {
+            "title":"90년대 밴드부연주",
+            "date":"2025-12-31",
+            "file_list":[
+               {
+                  "id":"1",
+                  "file_path":"commonfiles/history/photos/photo_006.jpg"
+               }
+            ]
+         },
+         {
+            "title":"90년대 도민체전 마스게임참가",
+            "date":"2025-12-31",
+            "file_list":[
+               {
+                  "id":"1",
+                  "file_path":"commonfiles/history/photos/photo_007.jpg"
+               }
+            ]
+         },
+         {
+            "title":"80년대 1",
+            "date":"2025-12-31",
+            "file_list":[
+               {
+                  "id":"1",
+                  "file_path":"commonfiles/history/photos/photo_008.jpg"
+               },
+               {
+                  "id":"2",
+                  "file_path":"commonfiles/history/photos/photo_009.jpg"
+               },
+               {
+                  "id":"3",
+                  "file_path":"commonfiles/history/photos/photo_010.jpg"
+               },
+               {
+                  "id":"4",
+                  "file_path":"commonfiles/history/photos/photo_011.jpg"
+               }
+            ]
+         },
+         {
+            "title":"80년대 2",
+            "date":"2025-12-31",
+            "file_list":[
+               {
+                  "id":"1",
+                  "file_path":"commonfiles/history/photos/photo_012.jpg"
+               },
+               {
+                  "id":"2",
+                  "file_path":"commonfiles/history/photos/photo_013.jpg"
+               },
+               {
+                  "id":"3",
+                  "file_path":"commonfiles/history/photos/photo_014.jpg"
+               },
+               {
+                  "id":"4",
+                  "file_path":"commonfiles/history/photos/photo_015.jpg"
                }
             ]
          }

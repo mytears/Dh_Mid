@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="include/css/style.css">
     <link rel="stylesheet" href="include/css/schedule.css">
 
+    <script src="include/js/lib/fullcalendar.index.global.min.js"></script>
     <script src="include/js/lib/gsap.min.js"></script>
     <script src="include/js/lib/swiper.js"></script>
     <script src="include/js/lib/jquery-3.7.1.min.js"></script>
@@ -19,25 +20,40 @@
 
 </head>
 
-<body>
-    <div class="sub_page">
-        <section class="">
-            <div class="container">
-                <div class="wrap">
-                    <nav class="nav_snb">
-                        <ul>
-                            <li code="0"><button>학사일정</button></li>
-                        </ul>
-                    </nav>
-                    <div class="content">
-                        <div class="img_zone">
-                            <img id="id_img_0" src="">
+<body class="sub">
+    <main>
+        <div class="wrap">
+            <div class="container nav4">
+                <h1>학사일정</h1>
+                <div class="inner">
+                    <div class="title">
+                        <h2>홍보</h2>
+                    </div>
+                    <div id="id_calendar_zone" class="calendar_zone">
+                        <div class="calendar">
+                            <div id="id_calendar_container">
+                                <div id="id_calendar_sch"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <ul class="list_contents">
+                    <li code="1" class="active"><a>1월</a></li>
+                    <li code="2"><a>2월</a></li>
+                    <li code="3"><a>3월</a></li>
+                    <li code="4"><a>4월</a></li>
+                    <li code="5"><a>5월</a></li>
+                    <li code="6"><a>6월</a></li>
+                    <li code="7"><a>7월</a></li>
+                    <li code="8"><a>8월</a></li>
+                    <li code="9"><a>9월</a></li>
+                    <li code="10"><a>10월</a></li>
+                    <li code="11"><a>11월</a></li>
+                    <li code="12"><a>12월</a></li>
+                </ul>
             </div>
-        </section>
-    </div>
+        </div>
+    </main>
 </body>
 
 </html>

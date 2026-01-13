@@ -24,6 +24,10 @@
 </head>
 
 <body>
+    <div class="debug_area" style="display:none;">
+        <input type="text" id="id_input" placeholder="내용을 입력하세요" value="2,4,2,9,2">
+        <button type="button" onclick="setDebug()">Debug</button>
+    </div>
     <div class="cover">
         <div class="loading-spinner"></div>
     </div>
@@ -48,8 +52,28 @@
 
     <div class="main landing">
         <header>
-            <div class="time"></div>
-            <div class="date"></div>
+            <div class="header_left">
+                <div class="weather">
+                    <div class="weather1">
+                        <div class="img_zone"><img class="weather_icon" src="images/weather/DB04_B.png" alt=""></div>
+                        <div>
+                            <em>오늘날씨</em>
+                            <b class="weather_temp">12˚</b>
+                        </div>
+                    </div>
+                    <div class="weather2">
+                        <div class="img_zone"><img src="images/ico_dust.png" alt=""></div>
+                        <div>
+                            <em>미세먼지</em>
+                            <b class="dust_title">매우나쁨</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="header_right">
+                <div class="time"></div>
+                <div class="date"></div>
+            </div>
         </header>
         <main>
             <div class="wrap">
@@ -108,8 +132,26 @@
             </div>
             <div class="area_side snb">
                 <div class="logo"><img src="images/logo.png" alt=""></div>
-                <div class="time">12:53</div>
-                <div class="date">2024.08.13 (화)</div>
+                <div class="info">
+                    <div class="time">12:53</div>
+                    <div class="date">2024.08.13 (화)</div>
+                    <div class="weather">
+                        <div class="weather1">
+                            <div class="img_zone"><img class="weather_icon" src="images/weather/DB04_B.png" alt=""></div>
+                            <div>
+                                <em>오늘날씨</em>
+                                <b class="weather_temp">12˚</b>
+                            </div>
+                        </div>
+                        <div class="weather2">
+                            <div class="img_zone"><img src="images/ico_dust.png" alt=""></div>
+                            <div>
+                                <em>미세먼지</em>
+                                <b class="dust_title">매우나쁨</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="group_btn">
                     <a class="btn_home"><img src="images/ico_home.png" alt="">홈화면</a>
                     <a class="btn_back"><img src="images/ico_back.png" alt="">뒤로가기</a>
@@ -147,24 +189,23 @@
                 </button>
             </div>
         </div>
-        <div id="id_popup_img" class="popup_bg ">
-            <div class="popup popup_photo">
 
-                <b><img src="" alt="">사진갤러리</b>
-                <strong id="id_popup_img_txt_1"></strong>
-                <span></span>
+        <div id="id_popup_img" class="modal" style="display: none;">
+            <div class="modalWin">
+                <div class="modalTitle" id="id_popup_img_txt_1">
+                    <p>제목입니다</p>
+                </div>
+                <button class="btn_close"></button>
 
-                <div id="id_img_list" class="">
-                    <div id="id_swiper" class="img_swiper">
-                        <div id="id_img_swiper_wrapper" class="swiper-wrapper">
-                            <div class="img_zone">
-                                <img src="" alt="">
-                            </div>
+                <div id="id_swiper" class="img_swiper slide">
+                    <div id="id_img_swiper_wrapper" class="swiper-wrapper">
+                        <div class="img_zone">
+                            <img src="" alt="">
                         </div>
-                        <div class="swiper-pagination"></div>
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-button-next"></div>
                     </div>
+                    <div class="swiper-pagination"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
                 </div>
 
                 <p id="id_popup_img_txt_2"></p>
@@ -175,14 +216,6 @@
         </div>
 
     </main>
-    <!--
-    <div class="main_content">
-        <div class="clock_zone">
-            <div class="clock">
-            </div>
-        </div>
-    </div>
--->
 </body></html>
 <script language="javascript">
     var MAINPARENTCUSTOMCODE = true;

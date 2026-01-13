@@ -1,30 +1,343 @@
-body{
-    width: 2570px;
-    height: 1530px;
-    background-color: #FFFFFF;
+.swiper-wrapper {
+    width: 2120px !important;
 }
 
-.container{
+.swiper-button-prev {
+    background-image: url('../../images/btn_prev_active.png');
+    width: 86px;
+    height: 156px;
+    background-size: 130% 130%;
+    top: 51%;
+    left: 7%;
+}
+
+.swiper-button-next {
+    background-image: url('../../images/btn_next_active.png');
+    width: 86px;
+    height: 156px;
+    background-size: 130% 130%;
+    top: 51%;
+    right: 7%;
+
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+    display: none;
+}
+
+.swiper-container-horizontal > .swiper-pagination-bullets {
+    bottom: 120px;
+}
+
+
+.swiper-pagination span {
+    width: 20px;
+    height: 20px;
+    background: #FFFFFF00;
+}
+
+.swiper-pagination-bullet {
+    width: 20px;
+    height: 20px;
+    opacity: 1;
+    background: #FFFFFF00;
+    border: 4px solid #606BCE;
+}
+
+.swiper-pagination span.swiper-pagination-bullet-active {
+    background: #606BCE;
+}
+
+
+.gallery .video button .img_zone {
+    position: relative;
+}
+
+.gallery .video button .img_zone::before {
+    z-index: 1;
     position: absolute;
-    top:0px;
-    left: 0px;
-    margin-top: 0px;
-    width: 2570px;
-    height: 1530px;
+    content: "";
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 190px;
+    height: 190px;
+    background: url(../../images/ico_player.png) no-repeat center / 100% auto;
 }
 
-.img_zone{
+.gallery .video button .img_zone::after {
     position: absolute;
-    top: 0px;
-    width:100%;
-    height: 100%;
-}
-
-.img_zone img{
+    content: "";
+    left: 0;
+    top: 0;
     width: 100%;
     height: 100%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    background-color: #000;
+    opacity: 0.2;
 }
+
+/* gallery */
+.gallery {
+    margin-left: 150px;
+    margin-top: 250px;
+    overflow: hidden;
+}
+
+.gallery ul {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    margin-top: 125px;
+    width: 2120px;
+
+}
+
+.gallery ul li {
+    margin: 15px;
+
+}
+
+.gallery ul li button {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 460px;
+    height: 358px;
+    background-color: #fff;
+    overflow: hidden;
+
+}
+
+.gallery ul li button .img_zone {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.gallery ul li button .img_zone .cover {
+    height: 100%;
+    width: 100%;
+    background: transparent linear-gradient(180deg, #00000000 0%, #000000C4 100%) 0% 0% no-repeat padding-box;
+    position: absolute;
+}
+
+.gallery ul li button .img_zone img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+}
+
+.gallery ul li button .txt_zone {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 25px;
+    padding-bottom: 20px;
+    width: 100%;
+    height: 120px;
+    box-sizing: border-box;
+    /*    border-top: 1px solid #8c8c8c;*/
+    position: absolute;
+    bottom: 0px;
+
+}
+
+.gallery ul li button .txt_zone b {
+    display: inline-block;
+    width: 430px;
+    align-self: flex-start;
+    font-size: 30px;
+    font-weight: 700;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
+    color: #FFFFFF;
+}
+
+.gallery ul li button .txt_zone i {
+    font-size: 22px;
+    font-weight: 500;
+    color: #FFFFFF;
+}
+
+.calendar_title {
+    width: 1400px;
+    font-size: 42px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#id_calendar_container {
+    width: 1400px;
+    background: white;
+    border: 1px solid #ddd;
+}
+
+#id_calendar_meal {}
+
+/* 1. 날짜 숫자 크기 키우기 및 왼쪽 정렬 */
+.fc-daygrid-day-top {
+    flex-direction: row !important;
+    /* 숫자 위치 제어 */
+    justify-content: flex-start !important;
+    /* 왼쪽 정렬 */
+    padding: 10px 0 0 10px !important;
+}
+
+.fc-daygrid-day-number {
+    font-size: 28px !important;
+    /* 글자 크기 확대 */
+    font-weight: bold;
+    text-decoration: none !important;
+}
+
+/* --- 요일 헤더 스타일 수정 --- */
+.fc-col-header-cell {
+    vertical-align: middle !important;
+    /* 세로 중앙 정렬 */
+    background-color: #f1f7ff;
+    /* 배경색 유지 */
+}
+
+.fc-col-header-cell-cushion {
+    font-size: 30px !important;
+    /* 글자 크기 더 확대 */
+    font-weight: bold !important;
+    padding: 5px 0 !important;
+    /* 위아래 동일한 간격 */
+    display: inline-block !important;
+    line-height: 1 !important;
+    /* 행간 초기화로 정확한 중앙 정렬 */
+    text-decoration: none !important;
+}
+
+/* ----------------------------- */
+
+/* 3. 주말 배경색 설정 */
+/* 일요일 배경 (연한 붉은색) */
+.fc-day-sun {
+    background-color: #fff5f5 !important;
+}
+
+/* 토요일 배경 (연한 푸른색) */
+.fc-day-sat {
+    background-color: #f1f7ff !important;
+}
+/* --- 요일 헤더(header) 배경색을 전부 옅은 회색으로 --- */
+.fc-col-header-cell {
+    vertical-align: middle !important;
+    background-color: #EFF1F4 !important;
+    /* 옅은 회색 적용 */
+}
+
+/* 오늘 날짜 배경색 (옅은 회색) */
+.fc-day-today {
+    background-color: #EFF1F4 !important;
+    /* 옅은 회색 */
+}
+
+/* [추가] 공휴일 클래스가 붙었을 때의 스타일 */
+/* 배경색과 글자색을 모두 !important로 덮어씌웁니다. */
+.fc-daygrid-day.is-holiday {
+    background-color: #fff5f5 !important;
+}
+
+.fc-daygrid-day.is-holiday .fc-daygrid-day-number {
+    color: #d9534f !important;
+}
+
+/* 기존 주말 설정 (유지) */
+.fc-day-sun .fc-daygrid-day-number,
+.fc-day-sun .fc-col-header-cell-cushion {
+    color: #d9534f !important;
+}
+
+.fc-day-sat .fc-daygrid-day-number,
+.fc-day-sat .fc-col-header-cell-cushion {
+    color: #337ab7 !important;
+}
+
+.fc-day-sat {
+    background-color: #f1f7ff !important;
+}
+
+/* 4. 이벤트 글자 스타일 (회색으로 변경 및 크기 확대) */
+.fc-event-title {
+    color: #666666 !important;
+    /* 회색 설정 */
+    font-size: 26px !important;
+    /* 글자 크기 확대 */
+    font-weight: 500;
+}
+
+/* 이벤트 상자의 기본 한 줄 설정을 해제하고 자동 줄바꿈을 허용합니다. */
+.fc-daygrid-event {
+    white-space: normal !important;
+    /* nowrap을 해제하여 줄바꿈 허용 */
+    display: block !important;
+    /* 너비에 맞춰 텍스트가 흐르도록 설정 */
+}
+
+#id_calendar_meal .fc-event-title {    
+    display: -webkit-box;
+    -webkit-line-clamp: 8;     /* 보여줄 줄 수 (2줄) */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    white-space: normal;       /* 줄 바꿈 허용 */
+    text-overflow: ellipsis;
+    font-size: 14px !important;
+
+}
+
+/* holiday-event 클래스를 가진 이벤트의 제목 스타일 변경 */
+#id_calendar_meal  .holiday-event .fc-event-title {
+    font-size: 26px !important; /* 글자 크기 */
+}
+
+.fc-event {
+    background: transparent !important;
+    border: none !important;
+    padding-left: 10px !important;
+}
+
+/* 평일 날짜 색상 */
+.fc-daygrid-day-number {
+    color: #333;
+}
+
+/* 공휴일 이벤트 글자 색상 강제 변경 */
+.holiday-event .fc-event-title {
+    color: #d9534f !important;
+    font-weight: bold;
+}
+
+/* (선택) 공휴일 이벤트 마우스 오버 시 효과 제거 */
+.holiday-event {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+.calendar_zone {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+}
+
+.calendar {
+    margin-top: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+

@@ -1,14 +1,25 @@
-let m_this_name = "activity";
+let m_this_name = "gallery";
 let m_contents_url = "";
 let m_notice_mode = "";
 let m_root_url = "";
-let m_activity_list = [];
-let m_vod_list = [];
-let m_img_list = [];
+let m_gallery_list = [];
+let m_trophy_list = [];
 
 let m_contents_json = null;
-let m_img_swiper = null;
-let m_vod_swiper = null;
+let m_main_swiper = null;
+let m_people_swiper = null;
+let m_photo_swiper = null;
+let m_alumni_swiper = null;
+
+let m_img_list = [];
+let m_people_list = [];
+let m_photo_list = [];
+let m_akumni_list = [];
+
+let m_curr_page_num = 0;
+let m_curr_sub_page = -1;
+
+let m_back_list = [];
 
 function setInit() {
     console.log(m_this_name + " Init");
@@ -16,13 +27,13 @@ function setInit() {
         setLoadSetting("include/setting.json");
     }
 
-    $('.nav_snb li').on("touchstart mousedown", function (e) {
+    $('.list_contents li').on("touchstart mousedown", function (e) {
         e.preventDefault();
         onClickMainMenu(this);
     });
 
-    m_vod_swiper = new Swiper('.vod_swiper', {
-        spaceBetween: 500, //슬라이드 간격
+    m_people_swiper = new Swiper('#id_people_list .img_swiper', {
+        spaceBetween: 200, //슬라이드 간격
         centeredSlides: true,
         slidesPerView: 'auto', // 자동으로 슬라이드 너비 설정
         watchOverflow: true,
@@ -35,21 +46,35 @@ function setInit() {
             prevEl: ".swiper-button-prev"
         }
     });
+    m_photo_swiper = new Swiper('#id_photo_list .img_swiper', {
+        spaceBetween: 200, //슬라이드 간격
+        centeredSlides: true,
+        slidesPerView: 'auto', // 자동으로 슬라이드 너비 설정
+        watchOverflow: true,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev"
+        }
+    });
+}
 
-    m_img_swiper = new Swiper('.img_swiper', {
-        spaceBetween: 500, //슬라이드 간격
-        centeredSlides: true,
-        slidesPerView: 'auto', // 자동으로 슬라이드 너비 설정
-        watchOverflow: true,
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev"
-        }
-    });
+function getPage() {
+    let t_str = m_curr_page_num + ", 0, 0";
+    if (m_curr_page_num == 1) {
+        t_str = m_curr_page_num + ", " + (m_people_swiper.activeIndex + 1) + "," + (m_curr_sub_page + 1);
+    } else if (m_curr_page_num == 2) {
+        t_str = m_curr_page_num + ", " + (m_photo_swiper.activeIndex + 1) + "," + (m_curr_sub_page + 1);
+    }
+
+    return t_str;
+}
+
+function setPopupClose(){
+    m_curr_sub_page = -1;
 }
 
 function setLoadSetting(_url) {
@@ -74,99 +99,17 @@ function setLoadSetting(_url) {
 }
 //초기화
 function setInitSetting() {
-    return;
-    //m_vod_list = m_activity_list.video_list;
-    m_img_list = m_activity_list.photo_list;
-    if(m_vod_list.length==0){
-        $(".no_bg").show();
-    }else{
-        $(".no_bg").hide();
-    }
-    setImgListUp();
-    setVodListUp();
-    onClickMainMenu($(".nav_snb li[code='0']"));
-}
 
-function setVodListUp() {
-    $('#id_vod_swiper_wrapper').html("");
-    if (m_vod_list.length == 0) {
-        return;
-    }
-    let t_max = 8;
-    let t_html = "";
-    let r_html = "";
-    let page_cnt = Math.ceil(m_vod_list.length / t_max);
-    for (let i = 0; i < page_cnt; i += 1) {
-        t_html += "<ul id='id_vod_wrap_" + i + "' class='video swiper-slide'>";
-        t_html += "</ul>";
-    }
-    $('#id_vod_swiper_wrapper').append(t_html);
-    for (let i = 0; i < m_vod_list.length; i += 1) {
-        let t_id = Math.floor(i / t_max);
-        r_html += "<li onClick='javascript:onClickVod(" + i + ");'>";
-        r_html += "    <button>";
-        r_html += "        <span class='img_zone'>";
-        r_html += "            <img src=" + convFilePath(m_vod_list[i].thumbnail) + ">";
-        r_html += "        </span>";
-        r_html += "        <span class='txt_zone'>";
-        r_html += "            <b>" + m_vod_list[i].title + "</b>";
-        r_html += "            <i>" + m_vod_list[i].date + "</i>";
-        r_html += "        </span>";
-        r_html += "    </button>";
-        r_html += "</li>";
-        $('#id_vod_wrap_' + t_id).append(r_html);
-        r_html = "";
-    }
+    setImgListUp("people");
+    setImgListUp("photo");
 
-    m_vod_swiper.slideTo(0, 0);
-    m_vod_swiper.update();
-}
+    //$("#id_img_1").attr("src", convFilePath(m_gallery_list.history_file_path));
+    //$("#id_img_2").attr("src", convFilePath(m_gallery_list.people_file_path));
+    //$("#id_img_3").attr("src", convFilePath(m_gallery_list.history_file_path));
+    //$("#id_img_4").attr("src", convFilePath(m_gallery_list.alumni_file_path));
+    $("#id_img_list .img_zone img").hide();
 
-function setImgListUp() {
-    $('#id_img_swiper_wrapper').html("");
-    if (m_img_list.length == 0) {
-        return;
-    }
-    let t_max = 8;
-    let t_html = "";
-    let r_html = "";
-    let page_cnt = Math.ceil(m_img_list.length / t_max);
-    for (let i = 0; i < page_cnt; i += 1) {
-        t_html += "<ul id='id_img_wrap_" + i + "' class='swiper-slide'>";
-        t_html += "</ul>";
-    }
-    $('#id_img_swiper_wrapper').append(t_html);
-    for (let i = 0; i < m_img_list.length; i += 1) {
-        let t_id = Math.floor(i / t_max);
-        r_html += "<li onClick='javascript:onClickImg(" + i + ");'>";
-        r_html += "    <button>";
-        r_html += "        <span class='img_zone'>";
-        r_html += "            <img src=" + convFilePath(m_img_list[i].file_list[0].file_path) + ">";
-        r_html += "        </span>";
-        r_html += "        <span class='txt_zone'>";
-        r_html += "            <b>" + m_img_list[i].title + "</b>";
-        r_html += "            <i>" + m_img_list[i].date + "</i>";
-        r_html += "        </span>";
-        r_html += "    </button>";
-        r_html += "</li>";
-        $('#id_img_wrap_' + t_id).append(r_html);
-        r_html = "";
-    }
-
-    m_img_swiper.slideTo(0, 0);
-    m_img_swiper.update();
-}
-
-function onClickVod(_id) {
-    if (this.PAGEACTIVEYN == false) {
-        window.parent.setPopupVod(m_vod_list[_id]);
-    }
-}
-
-function onClickImg(_id) {
-    if (this.PAGEACTIVEYN == false) {
-        window.parent.setPopupImg(m_img_list[_id]);
-    }
+    onClickMainMenu($(".list_contents li[code='1']"));
 }
 //kiosk_contents를 읽기
 function setContents() {
@@ -175,60 +118,169 @@ function setContents() {
         url: t_url,
         dataType: 'json',
         success: function (data) {
-            m_header = data.header;
-            m_activity_list = data.activity_list;
+            m_contents_json = data;
+            m_header = m_contents_json.header;
+            m_gallery_list = m_contents_json.gallery_list;
+
+            m_people_list = m_contents_json.gallery_list.history_list;
+            m_photo_list = m_contents_json.gallery_list.photo_list;
             setInitSetting();
         },
         error: function (xhr, status, error) {
             console.error('컨텐츠 에러 발생:', status, error);
         },
     });
+}
 
+function setImgListUp(_type) {
+
+    if (_type == "people") {
+        m_img_list = m_people_list;
+    } else if (_type == "photo") {
+        m_img_list = m_photo_list;
+    }
+
+    $('#id_' + _type + '_swiper_wrapper').html("");
+    if (m_img_list.length == 0) {
+        return;
+    }
+    let t_max = 8;
+    let t_html = "";
+    let r_html = "";
+    let page_cnt = Math.ceil(m_img_list.length / t_max);
+    for (let i = 0; i < page_cnt; i += 1) {
+        t_html += "<ul id='id_" + _type + "_wrap_" + i + "' class='swiper-slide'>";
+        t_html += "</ul>";
+    }
+    $('#id_' + _type + '_swiper_wrapper').append(t_html);
+    for (let i = 0; i < m_img_list.length; i += 1) {
+        let t_id = Math.floor(i / t_max);
+        r_html += "<li onClick='javascript:onClickImg(" + i + ");'>";
+        r_html += "    <button>";
+        r_html += "        <span class='img_zone'>";
+        r_html += "            <div class='cover'></div>";
+        r_html += "            <img src=" + convFilePath(m_img_list[i].file_list[0].file_path) + ">";
+        r_html += "        </span>";
+        r_html += "        <span class='txt_zone'>";
+        r_html += "            <b>" + m_img_list[i].title + "</b>";
+        r_html += "            <i>" + m_img_list[i].date + "</i>";
+        r_html += "        </span>";
+        r_html += "    </button>";
+        r_html += "</li>";
+        $("#id_" + _type + "_wrap_" + t_id).append(r_html);
+        r_html = "";
+    }
+    if (_type == "people") {
+        m_people_swiper.slideTo(0, 0);
+        m_people_swiper.update();
+    } else if (_type == "photo") {
+        m_photo_swiper.slideTo(0, 0);
+        m_photo_swiper.update();
+    }
+}
+
+function onClickImg(_id) {
+    m_curr_sub_page = _id;
+    if (this.PAGEACTIVEYN == false) {
+        window.parent.setPopupImg(m_img_list[_id], _id);
+    }
 }
 
 function setDataInit(_contents, _notice_mode) {
     m_notice_mode = _notice_mode;
     setInit();
+
     m_contents_json = _contents;
     m_header = m_contents_json.header;
-    m_introduce_list = m_contents_json.introduce_list;
-    m_activity_list = m_contents_json.activity_list;
+    m_gallery_list = m_contents_json.gallery_list;
+
+    m_people_list = m_contents_json.gallery_list.history_list;
+    m_photo_list = m_contents_json.gallery_list.photo_list;
+
     setInitSetting();
 }
 
 function onClickMainMenu(_obj) {
-    //console.log(_obj);
+    //    console.log(_obj);
     let t_code = $(_obj).attr('code');
-    $('.nav_snb li').removeClass('active');
-    $(`.nav_snb li[code="${t_code}"]`).addClass('active');
     setPage(t_code);
 }
 
-function setPage(_code) {
-    $("#id_vod_list").hide();
+function setPage(_code, _isBack = false) {
+    $("#id_people_list").hide();
+    $("#id_photo_list").hide();
     $("#id_img_list").hide();
-    switch (_code) {
-        case '0':
-            $("#id_img_list").show();
-            m_img_swiper.slideTo(0, 0);
-            m_img_swiper.update();
-            break;
-        case '1':
-            $("#id_vod_list").show();
-            m_vod_swiper.slideTo(0, 0);
-            m_vod_swiper.update();
-            break;
+    $("#id_img_list .img_zone img").hide();
+
+    $('.list_contents li').removeClass('active');
+    $(`.list_contents li[code="${_code}"]`).addClass('active');
+    $(".title h2").html($(`.list_contents li[code="${_code}"]`).text());
+
+    m_curr_page_num = parseInt(_code);
+    // 핵심: 뒤로가기 상황이 아닐 때만 리스트에 추가
+    if (!_isBack) {
+        m_back_list.push(m_curr_page_num);
+    }
+    
+    if (m_curr_page_num == 1) {
+        m_people_swiper.slideTo(0, 0);
+        $("#id_people_list").show();
+    } else if (m_curr_page_num == 2) {
+        m_photo_swiper.slideTo(0, 0);
+        $("#id_photo_list").show();
+    } 
+}
+
+function setSubPage(_num, _cnt) {
+    console.log("setSubPage", _num, _cnt);
+    let t_num = parseInt(_num) - 1;
+    let t_list = [];
+    if (m_curr_page_num == 1) {
+        m_people_swiper.slideTo(t_num, 0);
+        t_list = m_people_list;
+    } else if (m_curr_page_num == 2) {
+        m_photo_swiper.slideTo(t_num, 0);
+        t_list = m_photo_list;
+    }
+    _cnt -= 1;
+    //console.log(t_num, _cnt,t_list.length);
+    if (_cnt >= 0 && t_list.length > 0) {
+        let t_cnt = _cnt;
+        console.log(t_cnt);
+        if (t_cnt < t_list.length) {
+            onClickImg(t_cnt);
+        }
     }
 }
 
-
 function setMainReset() {
-    onClickMainMenu($(".nav_snb li[code='0']"));
+    m_back_list = [];
+    m_curr_sub_page = -1;
+    onClickMainMenu($(".list_contents li[code='1']"));
 }
 
 
 function onClickBtnBack() {
-    window.parent.setMainReset();
+    
+    // 리스트가 비어있으면 메인 리셋
+    if (m_back_list.length == 0) {
+        window.parent.setMainReset();
+        return; // 함수 종료
+    }
+
+    // 1. 마지막에 저장된 것을 지움 (pop 사용, 변수에 재할당 금지)
+    m_back_list.pop(); 
+    console.log(m_back_list);
+    // 2. 지우고 나서 남은게 있는지 확인
+    if (m_back_list.length == 0) {
+        // 지웠더니 더 이상 갈 곳이 없다면? -> 메인 리셋으로 가거나 처리 필요
+        window.parent.setMainReset();
+    } else {
+        // 3. 그 다음에 마지막인걸(이전 페이지) 가져와서 이동
+        let t_page = m_back_list[m_back_list.length - 1];
+        console.log(t_page);
+        setPage(t_page, true);
+    }
 }
 
 

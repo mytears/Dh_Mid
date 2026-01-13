@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="include/css/style.css">
     <link rel="stylesheet" href="include/css/info.css">
 
-    <script src="include/js/lib/gsap.min.js"></script>
     <script src="include/js/lib/swiper.js"></script>
     <script src="include/js/lib/jquery-3.7.1.min.js"></script>
     <script src="include/js/comm.js"></script>
@@ -22,31 +21,54 @@
 <body class="sub">
     <main>
         <div class="wrap">
-            <div class="container">
-                <h1>학교소개</h1>
+            <div class="container nav3">
+                <h1>학교시설</h1>
                 <div class="inner">
                     <div class="title">
-                        <h2>학교장 인사말</h2>
+                        <h2>본관</h2>
                     </div>
-                    <div id="id_img_list" class="contents">
-                        <div class="uploadImg img_zone">
-                            <img id="id_img_1" src="">
-                            <img id="id_img_2" src="">
-                            <img id="id_img_3" src="">
-                            <img id="id_img_4" src="">
+                    <div id="id_img_list"  class="contents map" style="display: none;">
+                        <div class="align_left">
+                            <div>
+                                <div class="img_zone"><img id="id_img_left" src="" alt=""></div>
+                                <ul class="areaLink">
+                                    <li class="areaA1-1"><button>도서관</button></li>
+                                    <li class="areaA1-2"><button>소강의실(공용)</button></li>
+                                    <li class="areaA1-3"><button>교육행정실</button></li>
+                                    <li class="areaA1-4"><button>교장실</button></li>
+                                    <li class="areaA1-5"><button>보건실</button></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <b class="floor">1F</b>
+                                <ul class="list_area">
+                                    <li><button>도서관</button></li>
+                                    <li><button>소강의실</button></li>
+                                    <li><button>교육행정실</button></li>
+                                    <li><button>교장실</button></li>
+                                    <li><button>보건실</button></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="align_right">
+                            <ul class="list_map">
+                                <li class="active"><button>B1</button></li>
+                                <li><button>1F</button></li>
+                                <li><button>2F</button></li>
+                                <li><button>3F</button></li>
+                                <li><button>4F</button></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
                 <ul class="list_contents">
-                    <li code="1" class="active"><a>학교장 인사말</a></li>
-                    <li code="2"><a>학교 상징</a></li>
+                    <li code="1" class="active"><a>본관</a></li>
+                    <li code="2"><a>특별관</a></li>
                 </ul>
             </div>
         </div>
     </main>
-</body>
-
-</html>
+</body></html>
 <script language="javascript">
     var PAGEACTIVEYN = true;
     window.addEventListener('DOMContentLoaded', function() {
