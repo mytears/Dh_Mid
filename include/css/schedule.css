@@ -246,6 +246,17 @@
 .fc-daygrid-day.is-holiday {
     background-color: #fff5f5 !important;
 }
+/* [추가] 이번 달이 아닌 날짜(fc-day-other)에도 공휴일 배경 강제 적용 */
+/* 10월 -> 9월로 왔을 때 10월 3일은 '다음 달' 날짜 취급을 받으므로 이 처리가 필수입니다. */
+.fc-daygrid-day.fc-day-other.is-holiday {
+    background-color: #fff5f5 !important;
+    opacity: 1 !important; /* 흐릿하게 보이는 효과 제거 (필요 시) */
+}
+
+/* [추가] 글자색도 동일하게 강제 적용 */
+.fc-daygrid-day.fc-day-other.is-holiday .fc-daygrid-day-number {
+    color: #d9534f !important;
+}
 
 .fc-daygrid-day.is-holiday .fc-daygrid-day-number {
     color: #d9534f !important;

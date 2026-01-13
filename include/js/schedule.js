@@ -59,72 +59,64 @@ function setLoadSetting(_url) {
         },
     });
 }
-//초기화
+
+
+// 초기화 함수 수정
 function setInitSetting() {
-
-    //$("#id_img_1").attr("src", convFilePath(m_schedule_list.history_file_path));
-    //$("#id_img_list .img_zone img").hide();
-
     $("#id_calendar").show();
     $("#id_calendar_zone").show();
+
+    // 1. 일반 학사 일정 데이터 가공
     m_schedule_list.academic_list.forEach(function (item) {
         var current_date = new Date(item.start);
         var end_date = new Date(item.end);
 
-        // 시작일부터 종료일까지 하루씩 더해가며 배열에 push
         while (current_date < end_date) {
             m_academic_events.push({
-                id: item.id + "_" + current_date.toISOString().split('T')[0], // ID 중복 방지
+                id: item.id + "_" + current_date.toISOString().split('T')[0],
                 title: item.title,
                 start: current_date.toISOString().split('T')[0],
                 allDay: true,
-                display: 'block' // 텍스트가 꽉 차게 표시되도록 설정
+                display: 'block'
             });
-
-            // 날짜를 하루 더함
             current_date.setDate(current_date.getDate() + 1);
         }
     });
 
-
-    var now = new Date();
-    var year = now.getFullYear();
-    var month = String(now.getMonth() + 1).padStart(2, '0');
-
-    // 2. JSON 파일 불러오기 (비동기)
+    // 2. 공휴일 데이터 로드 (비동기)
     $.getJSON('data/holiday.json', function (holidayData) {
+        // [중요] 전역 변수에 데이터 저장
         m_holiday_list = holidayData;
-        // [필터링 로직] 불러온 데이터 중 '이번 달'에 해당하는 공휴일만 찾아서 추가
+
+        // 공휴일을 이벤트 리스트에도 추가 (조건 없이 전체 추가)
         holidayData.forEach(function (h) {
-            // 날짜 문자열(h.start)이 '2025-12'로 시작하는지 확인
             m_academic_events.push({
                 id: 'holiday_' + h.start,
                 title: h.title,
                 start: h.start,
                 allDay: true,
                 display: 'block',
-                // [중요] 스타일 커스텀을 위한 클래스 및 속성 추가
-                classNames: ['holiday-event'], // 위 CSS에서 정의한 클래스
+                classNames: ['holiday-event'],
                 backgroundColor: 'transparent',
                 borderColor: 'transparent',
-                textColor: '#ff0000' // 백업용
+                textColor: '#ff0000'
             });
         });
-        console.log(m_academic_events);
-        //setMakeCalander(now.getMonth() + 1);
-    });
 
-    //console.log(m_academic_events);
+        // ============================================================
+        // [핵심 해결] 데이터 로드가 완전히 끝난 이 시점에 메인 메뉴 클릭 트리거
+        // 이렇게 해야 캘린더가 생성될 때 공휴일 데이터가 확실하게 존재합니다.
+        // ============================================================
+        var now = new Date();
+        var currentMonth = now.getMonth() + 1;
 
-
-    // 2. 현재 월 구하기 (getMonth()는 0부터 시작하므로 +1 필요)
-    let currentMonth = now.getMonth() + 1;
-    //onClickMainMenu($(".list_contents li[code='1']"));
-    setTimeout(function () {
+        // setTimeout 없이 바로 실행해도 안전합니다.
         onClickMainMenu($(`.list_contents li[code='${currentMonth}']`));
-    }, 100);
-
+    });
 }
+
+
+
 //kiosk_contents를 읽기
 function setContents() {
     var t_url = m_contents_url;
@@ -161,7 +153,7 @@ function onClickMainMenu(_obj) {
 
 function setPage(_code, _isBack = false) {
     $("#id_photo_list").hide();
-    $("#id_calendar").hide();
+    //    $("#id_calendar").hide();
     //$("#id_calendar_zone_sch").css("top", "2160px");
     $("#id_img_list").hide();
     $("#id_img_list .img_zone img").hide();
@@ -176,7 +168,7 @@ function setPage(_code, _isBack = false) {
         m_back_list.push(m_curr_page_num);
     }
 
-    $("#id_calendar").show();
+    //    $("#id_calendar").show();
     //$("#id_calendar_zone_sch").show();
     //$("#id_calendar_zone_sch").css("top", "0px");
     setMakeCalander(m_curr_page_num);
@@ -264,80 +256,83 @@ function setDateTime() {
 
 function setMakeCalander(_month) {
 
-    // 현재 날짜를 기준으로 이번 달 1일 구하기
+    // 1. 날짜 계산
     let now = new Date();
     let targetMonth = _month ? parseInt(_month) : (now.getMonth() + 1);
     let targetYear = now.getFullYear();
-    // 1 -> '01' 변환
     let strMonth = String(targetMonth).padStart(2, '0');
-    // 해당 월의 1일로 설정 (예: 2025-02-01)
     let targetDate = targetYear + '-' + strMonth + '-01';
 
-    // 캘린더 객체가 이미 존재하면 날짜만 이동 (깜빡임 방지 및 성능 최적화)
+    // 2. [핵심 변경] 기존 달력이 있으면 페이지 이동(gotoDate) 대신 파괴(destroy)합니다.
+    // 이렇게 해야 DOM이 완전히 새로 그려지며 dayCellDidMount가 100% 실행됩니다.
     if (m_calendar_obj) {
-        m_calendar_obj.gotoDate(targetDate);
-        m_calendar_obj.render(); // 확실하게 다시 그리기
-    } else {
-        var calendar_el = document.getElementById('id_calendar_sch');
-        m_calendar_obj = new FullCalendar.Calendar(calendar_el, {
-            initialView: 'dayGridMonth',
-            initialDate: targetDate,
-            locale: 'ko',
-            headerToolbar: false,
-            contentHeight: 900,
-            // 5. 불필요한 아랫줄 제거 (고정 6주가 아닌 해당 월의 주 수만큼만 표시)
-            fixedWeekCount: false, // 6. 날짜 형식 변경 (3일 -> 3)
-            dayCellContent: function (info) {
-                var number = info.dayNumberText.replace('일', '');
-                return {
-                    html: '<div>' + number + '</div>'
-                };
-            },
-            dayMaxEvents: true,
-
-            dayHeaderContent: function (arg) {
-                var week_days = ['일', '월', '화', '수', '목', '금', '토'];
-                return week_days[arg.date.getDay()];
-            },
-
-            events: m_academic_events,
-
-            // [핵심 수정] 날짜 렌더링 시점 (색상 및 배경 적용)
-            dayCellDidMount: function (info) {
-                // 1. toISOString() 대신 현지 시간 기준 날짜 문자열 생성 (밀림 현상 해결)
-                var year = info.date.getFullYear();
-                var month = String(info.date.getMonth() + 1).padStart(2, '0');
-                var day = String(info.date.getDate()).padStart(2, '0');
-                var dateStr = year + '-' + month + '-' + day;
-
-                var numberEl = info.el.querySelector('.fc-daygrid-day-number');
-
-                // 기본 요일 색상
-                if (numberEl) {
-                    if (info.date.getDay() === 0) numberEl.style.color = 'red'; // 일
-                    if (info.date.getDay() === 6) numberEl.style.color = 'blue'; // 토
-                }
-
-                // 공휴일 체크
-                if (m_holiday_list && m_holiday_list.length > 0) {
-                    var isHoliday = m_holiday_list.some(function (h) {
-                        return h.start === dateStr;
-                    });
-
-                    if (isHoliday) {
-                        // 클래스 추가만으로 CSS에서 배경색과 글자색을 모두 제어합니다.
-                        info.el.classList.add('is-holiday');
-                    } else {
-                        // 공휴일이 아니면 클래스 제거 (달력 이동 시 잔상 방지)
-                        info.el.classList.remove('is-holiday');
-                    }
-                }
-            }
-        });
-        m_calendar_obj.render();
+        m_calendar_obj.destroy();
+        m_calendar_obj = null;
     }
 
+    // 3. 달력 새로 생성
+    var calendar_el = document.getElementById('id_calendar_sch');
 
-    //$("#id_calendar").hide();
+    // 비워진 엘리먼트에 새로 생성
+    m_calendar_obj = new FullCalendar.Calendar(calendar_el, {
+        initialView: 'dayGridMonth',
+        initialDate: targetDate, // 계산된 날짜로 시작
+        locale: 'ko',
+        headerToolbar: false,
+        contentHeight: 900,
+        fixedWeekCount: false,
 
+        dayCellContent: function (info) {
+            var number = info.dayNumberText.replace('일', '');
+            return {
+                html: '<div>' + number + '</div>'
+            };
+        },
+        dayMaxEvents: true,
+        dayHeaderContent: function (arg) {
+            var week_days = ['일', '월', '화', '수', '목', '금', '토'];
+            return week_days[arg.date.getDay()];
+        },
+        events: m_academic_events,
+
+        // 스타일 적용 로직
+        dayCellDidMount: function (info) {
+            var cellYear = info.date.getFullYear();
+            var cellMonth = info.date.getMonth() + 1;
+            var cellDay = info.date.getDate();
+
+            var numberEl = info.el.querySelector('.fc-daygrid-day-number');
+
+            // 요일 색상
+            if (numberEl) {
+                if (info.date.getDay() === 0) numberEl.style.color = '#d9534f';
+                if (info.date.getDay() === 6) numberEl.style.color = '#337ab7';
+            }
+
+            // 공휴일 체크 (숫자 비교 방식)
+            if (m_holiday_list && m_holiday_list.length > 0) {
+                var isHoliday = m_holiday_list.some(function (h) {
+                    var parts = h.start.split('-');
+                    if (parts.length === 3) {
+                        var hYear = parseInt(parts[0], 10);
+                        var hMonth = parseInt(parts[1], 10);
+                        var hDay = parseInt(parts[2], 10);
+                        return hYear === cellYear && hMonth === cellMonth && hDay === cellDay;
+                    }
+                    return false;
+                });
+
+                if (isHoliday) {
+                    // 이제 무조건 로그가 찍혀야 정상입니다.
+                    // console.log("공휴일 적용됨:", cellMonth, cellDay);
+                    info.el.classList.add('is-holiday');
+                } else {
+                    info.el.classList.remove('is-holiday');
+                }
+            }
+        }
+    });
+
+    // 4. 렌더링
+    m_calendar_obj.render();
 }
