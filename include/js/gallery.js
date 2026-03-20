@@ -182,7 +182,13 @@ function setImgListUp(_type) {
 function onClickImg(_id) {
     m_curr_sub_page = _id;
     if (this.PAGEACTIVEYN == false) {
-        window.parent.setPopupImg(m_img_list[_id], _id);
+        console.log(m_curr_page_num);
+
+        if(m_curr_page_num == 1){
+            window.parent.setPopupImg(m_people_list[_id], _id);
+        }else{
+            window.parent.setPopupImg(m_photo_list[_id], _id);
+        }
     }
 }
 
@@ -199,6 +205,13 @@ function setDataInit(_contents, _notice_mode) {
 
     setInitSetting();
 }
+
+
+function setLEDModeOn() {
+    m_mode = "LED";
+    $(".sub .wrap").addClass("led");
+}
+
 
 function onClickMainMenu(_obj) {
     //    console.log(_obj);

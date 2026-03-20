@@ -352,3 +352,8 @@
 }
 
 
+
+/* sub 공통 */
+.sub .wrap.led {
+    background: none;
+}

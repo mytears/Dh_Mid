@@ -164,3 +164,9 @@
     font-weight: 500;
     color: #FFFFFF;
 }
+
+
+/* sub 공통 */
+.sub .wrap.led {
+    background: none;
+}

@@ -31,7 +31,7 @@ function setInit() {
 }
 
 function getPage() {
-    let t_str = m_curr_page_num + ", " + (m_img_swiper.activeIndex + 1) + "," + (m_curr_sub_page + 1);
+    let t_str = m_curr_page_num + ", " + 0 + "," + 0;
     return t_str;
 }
 
@@ -144,6 +144,13 @@ function setDataInit(_contents, _notice_mode) {
     m_schedule_list = m_contents_json.schedule_list;
     setInitSetting();
 }
+
+
+function setLEDModeOn() {
+    m_mode = "LED";
+    $(".sub .wrap").addClass("led");
+}
+
 
 function onClickMainMenu(_obj) {
     //    console.log(_obj);

@@ -8,3 +8,9 @@
     width:340px;
     font-size: 26px;
 }
+
+
+/* sub 공통 */
+.sub .wrap.led {
+    background: none;
+}

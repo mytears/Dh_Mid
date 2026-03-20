@@ -119,6 +119,12 @@ function setDataInit(_contents, _notice_mode) {
     setInitSetting();
 }
 
+function setLEDModeOn() {
+    m_mode = "LED";
+    $(".sub .wrap").addClass("led");
+}
+
+
 function onClickMainMenu(_obj) {
     //console.log(_obj);
     let t_code = $(_obj).attr('code');
@@ -161,7 +167,7 @@ function setPage(_code, _isBack = false) {
 
     let htmlContent0 = "";
     $(".list_map").html(htmlContent0);
-    for (var i = 0; i < m_target_json.length; i += 1) {
+    for (var i = m_target_json.length - 1; i >= 0; i -= 1) {
         htmlContent0 += `<li code="${i}"><button>${m_target_json[i].floor}</button></li>`;
     }
     $(".list_map").html(htmlContent0);

@@ -54,7 +54,8 @@ function setLoadSetting(_url) {
 function setInitSetting() {
     $("#id_img_1").attr("src", convFilePath(m_introduce_list.greetings_file_path));
     $("#id_img_2").attr("src", convFilePath(m_introduce_list.symbol_file_path));
-    $("#id_img_3").attr("src", convFilePath(m_introduce_list.objective_file_path));
+    $("#id_img_3").attr("src", convFilePath(m_introduce_list.history_file_path));
+    $("#id_img_4").attr("src", convFilePath(m_introduce_list.objective_file_path));
     $("#id_img_list .img_zone img").hide();
 
     onClickMainMenu($(".list_contents li[code='1']"));
@@ -86,6 +87,12 @@ function setDataInit(_contents, _notice_mode) {
     m_introduce_list = m_contents_json.introduce_list;
     m_trophy_list = m_contents_json.trophy_list;
     setInitSetting();
+}
+
+
+function setLEDModeOn() {
+    m_mode = "LED";
+    $(".sub .wrap").addClass("led");
 }
 
 function onClickMainMenu(_obj) {

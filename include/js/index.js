@@ -87,6 +87,8 @@ function setInit() {
     setLoadSetting("include/setting.json");
 
     setInitCheck();
+
+    //setTimeout(setLEDModeOn, 1000);
 }
 
 function setInitCheck() {
@@ -169,11 +171,15 @@ function setLEDModeOn() {
     m_mode = "LED";
     $(".area_side").hide();
     $("#id_sub_cont .wrap .container").addClass("led");
+    $('#id_main_frame_intro').find('iframe')[0].contentWindow.setLEDModeOn();
+    $('#id_main_frame_info').find('iframe')[0].contentWindow.setLEDModeOn();
+    $('#id_main_frame_gallery').find('iframe')[0].contentWindow.setLEDModeOn();
+    $('#id_main_frame_schedule').find('iframe')[0].contentWindow.setLEDModeOn();
     $(".modal").addClass("led");
     $(".landing").hide();
     if (m_notice_list.length > 0) {
         setTimeout(setPage, 750, "0");
-        //setTimeout(setNoticeDrawInfo, 800, "0");
+        //        setTimeout(setNoticeDrawInfo, 800, "0");
     }
     channel.onmessage = (event) => {
         console.log("메시지를 받았습니다:", event.data);
@@ -286,7 +292,7 @@ function onClickPopupClose(_obj) {
     $("#id_popup_img").hide();
     //$("#id_popup_video_obj")[0].pause();
     //$("#id_popup_video_obj")[0].src = '';
-    m_img_swiper.slideTo(0,0);
+    m_img_swiper.slideTo(0, 0);
     m_curr_document.setPopupClose();
 }
 
@@ -295,11 +301,12 @@ function onClickBtnHome(_obj) {
 }
 
 function setMainReset() {
-    
+
     m_back_list = [];
     $("#id_popup_img").hide();
 
     if (m_mode == "LED") {
+        /*
         if (m_notice_list.length > 0) {
             if ($("#id_main_notice").css("display") == "none") {
                 setPage("0");
@@ -308,10 +315,23 @@ function setMainReset() {
         } else {
             setPage("1");
         }
+        */
     } else {
         //$('.nav_main li, .nav_gnb li').removeClass('active');
         //$(`.nav_main li[code="${1}"], .nav_gnb li[code="${1}"]`).addClass('active');
         //setPage("0");
+        
+        
+        const data = {
+            frame: 0,
+            num: 0,
+            page: 0,
+            cnt: 0,
+            pop: 0
+        };
+        channel.postMessage(data);
+        
+        
         $(".landing").show();
     }
     /*
@@ -377,8 +397,8 @@ function setNoticeDrawInfo() {
         $('#id_notice_box_02').css('zIndex', 9);
     }
 
-    //m_curr_notice_type = obj.type;
-    m_curr_notice_type = obj.type = "MOV";
+    m_curr_notice_type = obj.type = obj.file_type;
+    //m_curr_notice_type = obj.type = "MOV";
     //console.log(convFilePath(obj.file_path));
     if (obj.type == "MOV") {
         $('#' + str_show + ' > video').attr('src', convFilePath(obj.file_path));
@@ -456,6 +476,8 @@ function setPage(_code, _isBack = false) {
     $("#id_notice_box_02 video")[0].pause();
     $("#id_notice_box_01 video")[0].src = '';
     $("#id_notice_box_02 video")[0].src = '';
+    $("#id_notice_box_01 img")[0].src = '';
+    $("#id_notice_box_02 img")[0].src = '';
     $("#id_main_cont").hide();
     $("#id_main_notice").hide();
     $("#id_sub_cont").show();
@@ -467,13 +489,14 @@ function setPage(_code, _isBack = false) {
     if (!_isBack) {
         m_back_list.push(m_curr_page_num);
     }
-    
+
     switch (_code) {
         case '0':
             m_curr_page = null;
             m_curr_document = null;
             $('.nav_main li, .nav_gnb li').removeClass('active');
             $('#id_main_notice').show();
+            setNoticeDrawInfo();
             break;
         case '1':
             setVideosStop();
@@ -511,6 +534,7 @@ function setPage(_code, _isBack = false) {
 }
 
 function setVideosStop() {
+    clearTimeout(m_notice_timeout);
     try {
         $("#id_screen_area_01").children("video")[0].pause();
     } catch (err) {}
@@ -618,25 +642,36 @@ function setLedCastFrame(_frame, _num, _page, _cnt, _pop) {
     console.log(_frame, _num, _page, _cnt, _pop);
     //console.log("Frame : " + _frame, "Num : " + _num, "Page : " + _page, "Cnt : " + _cnt, "Pop : " + _pop);
     m_time_last = new Date().getTime();
-    setPage(_frame.toString());
 
-    m_curr_document.setPage(_num);
-    m_curr_document.setSubPage(_page, _cnt);
-    setPopSwiperPage(_pop);
+
+    if (_frame > 0) {
+        setPage(_frame.toString());
+        m_curr_document.setPage(_num);
+        m_curr_document.setSubPage(_page, _cnt);
+        setPopSwiperPage(_pop);
+    } else {
+        if (m_notice_list.length > 0) {
+            if ($("#id_main_notice").css("display") == "none") {
+                setPage("0");
+                //setNoticeDrawInfo();
+            }
+        } else {
+            setPage("1");
+        }
+    }
+
 }
 
 function onClickLedCast(_obj) {
-    if (m_mode == "led") {
-        return;
-    }
+
     //m_curr_page_num
     let t_list = m_curr_document.getPage().split(",");
     //console.log(t_list);
     let t_frame = parseInt(m_curr_page_num);
     let t_num = parseInt(t_list[0]);
     let t_page = parseInt(t_list[1]);
-    let t_cnt = parseInt(t_list[2]);//m_pop_cnt;
-    let t_pop = m_img_swiper.activeIndex+1;
+    let t_cnt = parseInt(t_list[2]); //m_pop_cnt;
+    let t_pop = m_img_swiper.activeIndex + 1;
     console.log(t_frame, t_num, t_page, t_cnt, t_pop);
     //setLedCastFrame(t_frame, t_num, t_page, t_cnt, t_pop);
     const data = {
